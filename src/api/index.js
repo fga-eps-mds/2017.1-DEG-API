@@ -1,5 +1,6 @@
 import { version } from '../../package.json'
 import { Router } from 'express'
+import user from './user'
 
 export default ({ config, db }) => {
   let api = Router()
@@ -10,6 +11,8 @@ export default ({ config, db }) => {
     console.log(version)
     res.json({ version })
   })
+
+  api.use('/user', user({config, db}))
 
   return api
 }
