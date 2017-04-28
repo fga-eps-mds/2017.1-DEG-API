@@ -12,7 +12,7 @@ export default ({ config, db }) => {
     res.json({ version })
   })
 
-  api.use('/user', user({config, db}))
+  api.use('/users', user({config, db}))
 
   return api
 }
