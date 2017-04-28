@@ -1,4 +1,4 @@
-var thinky = require('thinky')()
+var thinky = require('thinky')({host: process.env.DOCKHERO_HOST, password: process.env.RETHINKDB_PASSWORD})
 var { type, r } = thinky
 
 function init () {

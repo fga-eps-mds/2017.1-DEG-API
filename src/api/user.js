@@ -27,7 +27,7 @@ export default ({ config, db }) => {
 
   router.post('/', async ({ body, query }, response) => {
     try {
-      console.log(body, 'aeaeae')
+      console.log(body, 'aeaeaeu')
       console.log(query)
       response.json(await User.save(body.user))
     } catch (err) {

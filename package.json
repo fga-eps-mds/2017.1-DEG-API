@@ -1,17 +1,22 @@
 {
   "name": "api-boilerplate",
   "version": "0.1.0",
-  "main": "index.js",
+  "main": "dist/server.js",
   "author": "DaniloBarros",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon -w src --exec npm run devcheck",
-    "start": "node dist/server.js",
-    "devcheck": "eslint --ext .js src && babel-node src/server.js || true",
+    "start": "nodemon src/server.js --exec babel-node --presets es2015,stage-2",
+    "devcheck": "babel-node src/server.js || true",
     "lint": "eslint --ext .js src || true",
-    "prestart": "babel src --out-dir dist"
+    "prestart": "babel src -d dist --presets es2015,stage-2"
   },
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
     "morgan": "^1.8.1",

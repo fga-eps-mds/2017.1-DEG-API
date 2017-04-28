@@ -4,6 +4,7 @@ import bodyParser from 'body-parser'
 import * as db from './db'
 import config from './config'
 import api from './api'
+import babel from 'babel-polyfill'
 
 let app = express()
 app.use(morgan('dev'))
@@ -15,8 +16,8 @@ app.use(bodyParser.json({
 db.init()
 .then(db => {
   app.use('/api', api({ config, db }))
-  app.listen(process.env.PORT || config.port || 3000)
-  console.log('Server started on 3000!')
+  app.listen(process.env.PORT || 3000)
+  console.log('Server started on ' + process.env.PORT || 3000)
 })
 
 export default app
