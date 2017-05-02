@@ -7,3 +7,4 @@ node_modules
 *.txt
 dist
 rethinkdb_data/log_file
+rethinkdb_data
