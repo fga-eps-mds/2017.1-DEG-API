@@ -1,10 +1,11 @@
 import { thinky, type } from '../db'
 
-let User = thinky.createModel('User', {
+let Coordinator = thinky.createModel('Coordinator', {
   name: type.string().required(),
   password: type.string().required(),
   email: type.string().required(),
   registration: type.string().required(),
+  course: type.string().required()
 })
 
-export default User
+export default Coordinator
