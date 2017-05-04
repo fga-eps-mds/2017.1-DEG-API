@@ -1,8 +1,9 @@
 import { thinky, type } from '../db'
+import Forum from './forum'
 
-let Notification = thinky.createModel('Notification', {
-  id: type.number().required(),
+var Notification = thinky.createModel('Notification', {
   message: type.string().required()
 })
 
 export default Notification
+

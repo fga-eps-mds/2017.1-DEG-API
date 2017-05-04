@@ -1,6 +1,9 @@
 import { version } from '../../package.json'
 import { Router } from 'express'
 import user from './user'
+import administrator from './admin'
+import coordinator from './coordinator'
+// import form from './form'
 
 export default ({ config, db }) => {
   let api = Router()
@@ -13,6 +16,8 @@ export default ({ config, db }) => {
   })
 
   api.use('/users', user({config, db}))
+  api.use('/admin', administrator({config, db}))
+/ api.use('/coordinator', coordinator({config, db}))
 
   return api
 }

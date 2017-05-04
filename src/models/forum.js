@@ -1,9 +1,8 @@
 import { thinky, type } from '../db'
 
-let Forum = thinky.createModel('Forum', {
-  id: type.number().required(),
-  theme: [type.string()].required(),
-  data: type.data(),
+var Forum = thinky.createModel('Forum', {
+  theme: [type.string()],
+  date: type.date(),
   hour: type.number(),
   place: {
     room: type.string(),

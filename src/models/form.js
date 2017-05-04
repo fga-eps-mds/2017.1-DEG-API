@@ -1,9 +1,9 @@
 import { thinky, type } from '../db'
 
-let Form = thinky.createModel('Form', {
-  id: type.number().required(),
+var Form = thinky.createModel('Form', {
   question: type.string().required(),
-  data: type.data()
+  date: type.date()
 })
+
 
 export default Form
