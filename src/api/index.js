@@ -16,8 +16,8 @@ export default ({ config, db }) => {
   })
 
   api.use('/users', user({config, db}))
-  api.use('/admin', administrator({config, db}))
-/ api.use('/coordinator', coordinator({config, db}))
+  api.use('/administrator', administrator({config, db}))
+  api.use('/coordinator', coordinator({config, db}))
 
   return api
 }
