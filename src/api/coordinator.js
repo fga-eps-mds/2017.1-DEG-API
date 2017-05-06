@@ -16,6 +16,19 @@ export default ({ config, db }) => {
     }
   })
 
+  router.post('/', async (request, response) => {
+    try {
+      if (request.body.user !== undefined) {
+        var creation = await Coordinator.insert(request.body.user).run()
+        response.json(creation)
+      } else {
+        response.status(400).json({error: 'error'})
+      }
+    } catch (error) {
+      response.status(404).json({error: error})
+    }
+  })
+
   router.delete('/', async (request, response) => {
     try {
       console.log(request.body)
@@ -23,7 +36,7 @@ export default ({ config, db }) => {
         var deletion = await Coordinator.get(request.body.id).delete().run()
         response.json(deletion)
       } else {
-        response.status(500).json({error: 'error'})
+        response.status(400).json({error: 'error'})
       }
     } catch (error) {
       response.status(404).json({error: error})
