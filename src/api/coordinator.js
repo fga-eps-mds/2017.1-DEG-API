@@ -11,6 +11,7 @@ export default ({ config, db }) => {
   })
 
   router.get('/', async (request, response) => {
+    console.log("GET ALL")
     try {
       response.json(await Coordinator.orderBy('name').run())
     } catch (error) {
@@ -19,8 +20,10 @@ export default ({ config, db }) => {
   })
 
   router.get('/:coordinator', async ({ coordinator }, response) => {
+    console.log("GET ONE")
     try {
-      response.json(await coordinator)
+      var result = await coordinator.getJoin({forums: true}).run()
+      response.json(result)
     } catch (error) {
       var errorMessage = getCorrectError(error,
         error.name,
@@ -33,11 +36,12 @@ export default ({ config, db }) => {
         404,
         400
       )
-      response.status(statusError).json({ error: errorMessage, success })
+      response.status(statusError).json({ error: errorMessage })
     }
   })
 
   router.post('/', async ({ body, query }, response) => {
+    console.log("POST")
     var success = false
     try {
       var result = await Coordinator.save(body.coordinator)
@@ -60,6 +64,7 @@ export default ({ config, db }) => {
   })
 
   router.put('/:coordinator', async ({ coordinator, body }, response) => {
+    console.log("PUT")
     var success = false
     try {
       // var result = await coordinator.update(body.coordinator).run()
@@ -88,6 +93,7 @@ export default ({ config, db }) => {
   })
 
   router.delete('/:coordinator', async ({ coordinator }, response) => {
+    console.log("DELETE")
     var success = false
     try {
       var coordinatorInstance = await coordinator
@@ -102,6 +108,71 @@ export default ({ config, db }) => {
       response.status(404).json({ error: errorMessage, success })
     }
   })
+
+  router.post('/:coordinator/forum/:forum',
+    async ({ coordinator, params }, response) => {
+    console.log("POST FORUM")
+    var success = false
+    try {
+      var coordinatorInstance = await coordinator
+      var result = coordinatorInstance.addRelation("forums", {id: params.forum})
+      success = true
+      response.json({ result , success })
+    } catch (error) {
+      response.status(404).json({ error: error.name, success })
+    }
+  })
+
+  router.delete('/:coordinator/forum/:forum',
+    async ({ coordinator, params }, response) => {
+      var success = false
+      console.log(params)
+      try {
+        var coordinatorInstance = await coordinator
+        var result = coordinatorInstance.removeRelation("forums", {id: params.forum}).run()
+        success = true
+        response.json({ result, success })
+      } catch (error) {
+        console.log(error)
+        var errorMessage = getCorrectError(error, error.name, "Coordenador não encontrado.")
+        var errorStatus = getCorrectError(error, 404, 401)
+
+        response.status(errorStatus).json({ error: errorMessage, success })
+      }
+    })
+
+    router.get('/:coordinator/forum/:forum',
+      async ({ coordinator, params }, response) => {
+      console.log("GET ONE FORUM")
+      var success = false
+      try {
+        var result = await coordinator.getJoin({
+          forums: true
+        }).run()
+
+        result.forums.forEach((forum) => {
+          console.log(forum)
+          if (forum.id === params.forum){
+            success = true
+          }
+        })
+
+        response.json({ success })
+      } catch (error) {
+        var errorMessage = getCorrectError(error,
+          error.name,
+          "Coordenador não encontrado",
+          "Dados inválidos de coordenador " + error.message
+        )
+
+        var statusError = getCorrectError(error,
+          404,
+          404,
+          400
+        )
+        response.status(statusError).json({ error: errorMessage })
+      }
+    })
 
   return router
 }
