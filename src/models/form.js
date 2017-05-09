@@ -5,5 +5,4 @@ var Form = thinky.createModel('Form', {
   date: type.date()
 })
 
-
 export default Form

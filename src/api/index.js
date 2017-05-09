@@ -3,7 +3,7 @@ import { Router } from 'express'
 import user from './user'
 import administrator from './admin'
 import coordinator from './coordinator'
-// import form from './form'
+import forum from './forum'
 
 export default ({ config, db }) => {
   let api = Router()
@@ -15,9 +15,9 @@ export default ({ config, db }) => {
     res.json({ version })
   })
 
-  api.use('/users', user({config, db}))
-  api.use('/administrator', administrator({config, db}))
-  api.use('/coordinator', coordinator({config, db}))
+  api.use('/administrators', administrator({config, db}))
+  api.use('/forums', forum({config, db}))
+  api.use('/coordinators', coordinator({config, db}))
 
   return api
 }

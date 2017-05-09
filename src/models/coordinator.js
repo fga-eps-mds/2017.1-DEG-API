@@ -5,10 +5,16 @@ import Notification from './notification'
 
 var Coordinator = thinky.createModel('Coordinator', {
   name: type.string().required(),
-  password: type.string().required(),
   email: type.string().required(),
+  course: type.string().required(),
   registration: type.string().required(),
-  course: type.string().required()
+  password: type.string().required()
+}, {
+  pk: 'registration'
+})
+
+Coordinator.defineStatic("getView", function() {
+    return this.without('password')
 })
 
 Form.hasAndBelongsToMany(Coordinator, 'coordinators', 'id', 'id')

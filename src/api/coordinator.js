@@ -1,11 +1,13 @@
 import { Router } from 'express'
 import Coordinator from '../models/coordinator'
+import { getCorrectError } from '../helpers/errorHandling'
 
 export default ({ config, db }) => {
   let router = Router()
 
-  router.param('coordinator', (request, response, next, id) => {
-    request.coordinator = Coordinator.get(id)
+  router.param('coordinator', async (req, resp, next, registration) => {
+    req.coordinator = Coordinator.get(registration)
+    next()
   })
 
   router.get('/', async (request, response) => {
@@ -16,43 +18,88 @@ export default ({ config, db }) => {
     }
   })
 
-  router.post('/', async (request, response) => {
+  router.get('/:coordinator', async ({ coordinator }, response) => {
     try {
-      if (request.body.user !== undefined) {
-        var creation = await Coordinator.insert(request.body.user).run()
-        response.json(creation)
-      } else {
-        response.status(400).json({error: 'error'})
-      }
+      response.json(await coordinator)
     } catch (error) {
-      response.status(404).json({error: error})
+      var errorMessage = getCorrectError(error,
+        error.name,
+        "Coordenador não encontrado",
+        "Dados inválidos de coordenador " + error.message
+      )
+
+      var statusError = getCorrectError(error,
+        404,
+        404,
+        400
+      )
+      response.status(statusError).json({ error: errorMessage, success })
     }
   })
 
-  router.put('/', async (request, response) => {
+  router.post('/', async ({ body, query }, response) => {
+    var success = false
     try {
-      if (request.body.id !== undefined && request.body.newUser !== undefined) {
-        var edition = await Coordinator.get(request.body.id).update(request.body.newUser).run()
-        response.json(edition)
-      } else {
-        response.status(400).json({error: 'error'})
-      }
+      var result = await Coordinator.save(body.coordinator)
+      success = true
+      response.json({ result, success })
     } catch (error) {
-      response.status(404).json({error: error})
+      var errorMessage = getCorrectError(error,
+        error.name,
+        "Coordenador não encontrado",
+        "Dados inválidos de coordenador " + error.message
+      )
+
+      var statusError = getCorrectError(error,
+        404,
+        404,
+        400
+      )
+      response.status(statusError).json({ error: errorMessage, success })
     }
   })
 
-  router.delete('/', async (request, response) => {
+  router.put('/:coordinator', async ({ coordinator, body }, response) => {
+    var success = false
     try {
-      console.log(request.body)
-      if (request.body.id !== undefined) {
-        var deletion = await Coordinator.get(request.body.id).delete().run()
-        response.json(deletion)
-      } else {
-        response.status(400).json({error: 'error'})
-      }
+      // var result = await coordinator.update(body.coordinator).run()
+      var coordInstance = await coordinator.run()
+      var result = await coordInstance.merge(body.coordinator).save()
+      var old = await coordInstance.getOldValue()
+      success = true
+      response.json({ result, old, success })
     } catch (error) {
-      response.status(404).json({error: error})
+      console.log(error)
+      var statusError = getCorrectError(error,
+        404,
+        404,
+        400,
+        400
+      )
+
+      var errorMessage = getCorrectError(error,
+        error.name,
+        "Coordenador não encontrado",
+        "Dados inválidos de coordenador " + error.message,
+        "Um erro ocorreu ao alterar esse cordenador " + error.message
+      )
+      response.status(statusError).json({ error: errorMessage, success })
+    }
+  })
+
+  router.delete('/:coordinator', async ({ coordinator }, response) => {
+    var success = false
+    try {
+      var coordinatorInstance = await coordinator
+      var result = await coordinatorInstance.delete()
+      success = true
+      response.json({ result, success })
+    } catch(error) {
+      var errorMessage = getCorrectError(error,
+        error.name,
+        "Coordenador não encontrado"
+      )
+      response.status(404).json({ error: errorMessage, success })
     }
   })
 
