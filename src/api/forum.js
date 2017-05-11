@@ -73,5 +73,20 @@ export default ({ config, db }) => {
     }
   })
 
+  router.delete('/:forum', async ({ forum }, response) => {
+    var success = false
+    try {
+      var forumInstance = await forum
+      var result = await forumInstance.delete()
+      response.json({ result, success: !success })
+    } catch (error) {
+      var errorMessage = getCorrectError(error,
+        error.name,
+        "Forum não encontrado"
+      )
+      response.status(404).json({ error: errorMessage, success }) 
+    }
+  })
+
   return router
 }
