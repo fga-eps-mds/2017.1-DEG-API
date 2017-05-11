@@ -54,5 +54,24 @@ export default ({ config, db }) => {
     }
   })
 
+  router.put('/:forum', async({forum, body }, response) => {
+    var success = false
+    try {
+      var forumInstance = await forum.run()
+      var result = await forumInstance.merge(body.forum).save()
+      var old = await forumInstance.getOldValue()
+      response.json({result, old, success: !success})
+    } catch (error) {
+      var statusError = getCorrectError(error, 404,404, 400, 400)
+      var errorMessage = getCorrectError(error,
+        error.name,
+        "Forum não encontrado",
+        "Dados inválidos de fórum" + error.message,
+        "Um erro ocorreu ao alterar esse forum " + error.message
+      )
+      response.status(statusError).json({error: errorMessage, success})
+    }
+  })
+
   return router
 }
