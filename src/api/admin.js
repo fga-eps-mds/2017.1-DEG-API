@@ -19,7 +19,7 @@ export default ({ config, db }) => {
   router.post('/', async (request, response) => {
     try {
       if (request.body.user !== undefined) {
-        var creation = await Administrator.insert(request.body.user).run()
+        var creation = await Administrator.save(request.body.user)
         response.json(creation)
       } else {
         response.status(400).json({error: 'error'})
