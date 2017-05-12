@@ -11,7 +11,6 @@ export default ({ config, db }) => {
   })
 
   router.get('/', async (request, response) => {
-    console.log("GET ALL")
     try {
       response.json(await Coordinator.orderBy('name').run())
     } catch (error) {
@@ -20,7 +19,6 @@ export default ({ config, db }) => {
   })
 
   router.get('/:coordinator', async ({ coordinator }, response) => {
-    console.log("GET ONE")
     try {
       var result = await coordinator.getJoin({forums: true}).run()
       response.json(result)
@@ -64,7 +62,6 @@ export default ({ config, db }) => {
   })
 
   router.put('/:coordinator', async ({ coordinator, body }, response) => {
-    console.log("PUT")
     var success = false
     try {
       // var result = await coordinator.update(body.coordinator).run()
