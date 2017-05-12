@@ -39,13 +39,14 @@ export default ({ config, db }) => {
   })
 
   router.post('/', async ({ body, query }, response) => {
-    console.log("POST")
     var success = false
     try {
+      console.log(body.coordinator)
       var result = await Coordinator.save(body.coordinator)
       success = true
       response.json({ result, success })
     } catch (error) {
+      console.log(error)
       var errorMessage = getCorrectError(error,
         error.name,
         "Coordenador não encontrado",
@@ -90,7 +91,6 @@ export default ({ config, db }) => {
   })
 
   router.delete('/:coordinator', async ({ coordinator }, response) => {
-    console.log("DELETE")
     var success = false
     try {
       var coordinatorInstance = await coordinator
@@ -108,7 +108,6 @@ export default ({ config, db }) => {
 
   router.post('/:coordinator/forum/:forum',
     async ({ coordinator, params }, response) => {
-    console.log("POST FORUM")
     var success = false
     try {
       var coordinatorInstance = await coordinator
@@ -140,7 +139,6 @@ export default ({ config, db }) => {
 
     router.get('/:coordinator/forum/:forum',
       async ({ coordinator, params }, response) => {
-      console.log("GET ONE FORUM")
       var success = false
       try {
         var result = await coordinator.getJoin({

@@ -15,6 +15,7 @@ export default ({ config, db }) => {
     res.json({ version })
   })
 
+  api.use('/users', user({config, db}))
   api.use('/administrators', administrator({config, db}))
   api.use('/forums', forum({config, db}))
   api.use('/coordinators', coordinator({config, db}))
