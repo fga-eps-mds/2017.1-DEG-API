@@ -1,6 +1,7 @@
 var thinky = require('thinky')({
   host: process.env.DOCKHERO_HOST,
-  password: process.env.RETHINKDB_PASSWORD
+  password: process.env.RETHINKDB_PASSWORD,
+  db: process.env.RETHINKDB_DB
 })
 var { type, r, Errors } = thinky
 
