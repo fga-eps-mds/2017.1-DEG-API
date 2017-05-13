@@ -13,16 +13,20 @@ export default ({ config, db }) => {
 
   router.post('/authenticate', async ({ body }, res) => {
     var success = false
-    var user = 'coordinator'
+    var user = 'null'
     try {
       var coords = await Coordinator.filter({ registration: body.registration, password: body.password }).run()
       var coordinator = coords[0]
       var admins = await Admin.filter({ registration: body.registration, password: body.password }).run()
       var administrator = admins[0]
+
       if (administrator !== undefined) {
         user = 'administrator'
+        success = true
+      } else if (coordinator !== undefined) {
+        user = 'coordinator'
+        success = true
       }
-      success = true
       res.json({coordinator, administrator, success, user})
       // if (can(user, 'login', user)) {
       //   var token = createToken(user, config)
