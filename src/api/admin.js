@@ -1,11 +1,14 @@
 import { Router } from 'express'
 import Administrator from '../models/admin'
+import { getCorrectError } from '../helpers/errorHandling'
 
 export default ({ config, db }) => {
   let router = Router()
 
-  router.param('administrator', (request, response, next, id) => {
-    request.administrator = Administrator.get(id)
+  router.param('administrator', (req, res, next, registration) => {
+    console.log(registration)
+    req.administrator = Administrator.get(registration)
+    next()
   })
 
   router.get('/', async (request, response) => {
@@ -16,43 +19,89 @@ export default ({ config, db }) => {
     }
   })
 
-  router.post('/', async (request, response) => {
+  router.get('/:administrator', async ({ administrator }, response) => {
     try {
-      if (request.body.user !== undefined) {
-        var creation = await Administrator.insert(request.body.user).run()
-        response.json(creation)
-      } else {
-        response.status(400).json({error: 'error'})
-      }
+      var result = await administrator
+      console.log(result)
+      response.json({ result })
     } catch (error) {
-      response.status(404).json({error: error})
+      var errorMessage = getCorrectError(error,
+        error.name,
+        "Administrador não encontrado",
+        "Dados inválidos de administrador " + error.message
+      )
+
+      var statusError = getCorrectError(error,
+        404,
+        404,
+        400
+      )
+      response.status(statusError).json({error: errorMessage})
     }
   })
 
-  router.put('/', async (request, response) => {
+  router.post('/', async ({ body }, response) => {
+    var success = false
     try {
-      if (request.body.id !== undefined && request.body.newUser !== undefined) {
-        var edition = await Administrator.get(request.body.id).update(request.body.newUser).run()
-        response.json(edition)
-      } else {
-        response.status(400).json({error: 'error'})
-      }
+      var result = await Administrator.save(body.administrator)
+      success = true
+      response.json({ result, success })
     } catch (error) {
-      response.status(404).json({error: error})
+      var errorMessage = getCorrectError(error,
+        error.name,
+        "",
+        "Dados inválidos de administrador " + error.message
+      )
+
+      var statusError = getCorrectError(error,
+        404,
+        404,
+        400
+      )
+      response.status(statusError).json({error: errorMessage, success})
     }
   })
 
-  router.delete('/', async (request, response) => {
+  router.put('/:administrator', async ({ administrator, body }, response) => {
+    var success = false
     try {
-      console.log(request.body)
-      if (request.body.id !== undefined) {
-        var deletion = await Administrator.get(request.body.id).delete().run()
-        response.json(deletion)
-      } else {
-        response.status(400).json({error: 'error'})
-      }
+      var admInstance = await administrator.run()
+      var result = await admInstance.merge(body.administrator).save()
+      var old = await admInstance.getOldValue()
+      success = true
+      response.json({result, old, success})
     } catch (error) {
-      response.status(404).json({error: error})
+      var statusError = getCorrectError(error,
+        404,
+        404,
+        400,
+        400
+      )
+
+      var errorMessage = getCorrectError(error,
+        error.name,
+        "Administrador não encontrado",
+        "Dados inválidos de Administrador " + error.message,
+        "Um erro ocorreu ao alterar esse administrador " + error.message
+      )
+      response.status(statusError).json({error: errorMessage, success})
+    }
+  })
+
+  router.delete('/:administrator', async ({ administrator }, response) => {
+    var success = false
+    try {
+      var admInstance = await administrator
+      var result = admInstance.delete()
+      success = true
+      response.json({ result, success })
+    } catch (error) {
+      console.log(error)
+      var errorMessage = getCorrectError(error,
+        error.name,
+        "Administrador não encontrado"
+      )
+      response.status(404).json({error: errorMessage, success})
     }
   })
 

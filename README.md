@@ -10,9 +10,15 @@ Contruido em `Nodejs` e `RethinkDB`.
   * [`/coordinators`](#Coordinators) - Rota de acesso para os coordenadores
 
 
+## Relacionamentos
+* Coordenador - Forum ( N x M )
+  * [`/coordinators/:matricula/forums/:forumId`](#Coordinators-Forum-(Relacionamento-NxM))
+
 ### Coordinators
 
 Aceita os métodos de `GET`, `POST`, `UPDATE`, `DELETE`.
+
+URL de acesso: `api/coordinators`
 
 #### GET
 * **All:**   
@@ -138,6 +144,7 @@ Exemplo Body:
 URL Genérica `/api/coordinators/:registration`   
 Exemplo de uso `/api/coordinators/130123456`
 
+##### Resposta
 * Positiva:
 ```json
 {
@@ -157,6 +164,58 @@ Exemplo de uso `/api/coordinators/130123456`
 ```json
 {
   "error": "Mensagem Error",
+  "success": false
+}
+```
+
+### Coordinators_Forum (Relacionamento NxM)
+
+URL Genérica `/coordinators/:matricula/forums/:forumId`   
+Exemplo de uso `/coordinators/124567234/forums/a183be7e-b4d2-4a42-bdcf-bf6ad4b0d8fe`    
+
+#### Aceita os métodos de `GET`, `POST`, `DELETE`
+
+#### GET (Se um usuário está confirmado em um Forum)
+##### Resposta
+* Positiva:
+```json
+{
+  "success": true
+}
+```
+* Negativa:
+```json
+{
+  "success": false
+}
+```
+
+#### POST (Confirma presença do coordenador)
+##### Resposta
+* Positiva:
+```json
+{
+  "success": true
+}
+```
+* Negativa:
+```json
+{
+  "success": false
+}
+```
+
+#### DELETE (Cancela presença do coordenador)
+##### Resposta
+* Positiva:
+```json
+{
+  "success": true
+}
+```
+* Negativa:
+```json
+{
   "success": false
 }
 ```

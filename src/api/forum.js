@@ -14,6 +14,7 @@ export default ({ config, db }) => {
     try {
       response.json(await Forum.orderBy('date').run())
     } catch (err) {
+      console.log(err)
       response.status(404).json({ error: err.name })
     }
   })
@@ -22,7 +23,7 @@ export default ({ config, db }) => {
     var success = false
     try {
       response.json({result: await forum, success: !success})
-    } catch (error) {   
+    } catch (error) {
       var errorMessage = getCorrectError(error,
         error.name,
         "Forum não encontrado",
@@ -38,9 +39,10 @@ export default ({ config, db }) => {
     }
   })
 
-  router.post('/', async ({body}, response) => {
+  router.post('/', async ({ body }, response) => {
     var success = false
     try {
+      body.forum.date = new Date(body.forum.date)
       var result = await Forum.save(body.forum)
       response.json({result, success: !success})
     } catch (error) {
@@ -54,10 +56,14 @@ export default ({ config, db }) => {
     }
   })
 
-  router.put('/:forum', async({forum, body }, response) => {
+  router.put('/:forum', async({ forum, body }, response) => {
     var success = false
     try {
       var forumInstance = await forum.run()
+
+      if (body.forum.date !== undefined && body.forum.date !== null) {
+        body.forum.date = new Date(body.forum.date)
+      }
       var result = await forumInstance.merge(body.forum).save()
       var old = await forumInstance.getOldValue()
       response.json({result, old, success: !success})
@@ -84,7 +90,7 @@ export default ({ config, db }) => {
         error.name,
         "Forum não encontrado"
       )
-      response.status(404).json({ error: errorMessage, success }) 
+      response.status(404).json({ error: errorMessage, success })
     }
   })
 

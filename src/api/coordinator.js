@@ -20,7 +20,8 @@ export default ({ config, db }) => {
 
   router.get('/:coordinator', async ({ coordinator }, response) => {
     try {
-      response.json(await coordinator)
+      var result = await coordinator.getJoin({forums: true}).run()
+      response.json(result)
     } catch (error) {
       var errorMessage = getCorrectError(error,
         error.name,
@@ -33,17 +34,19 @@ export default ({ config, db }) => {
         404,
         400
       )
-      response.status(statusError).json({ error: errorMessage, success })
+      response.status(statusError).json({ error: errorMessage })
     }
   })
 
   router.post('/', async ({ body, query }, response) => {
     var success = false
     try {
+      console.log(body.coordinator)
       var result = await Coordinator.save(body.coordinator)
       success = true
       response.json({ result, success })
     } catch (error) {
+      console.log(error)
       var errorMessage = getCorrectError(error,
         error.name,
         "Coordenador não encontrado",
@@ -102,6 +105,69 @@ export default ({ config, db }) => {
       response.status(404).json({ error: errorMessage, success })
     }
   })
+
+  router.post('/:coordinator/forum/:forum',
+    async ({ coordinator, params }, response) => {
+    var success = false
+    try {
+      var coordinatorInstance = await coordinator
+      var result = coordinatorInstance.addRelation("forums", {id: params.forum})
+      success = true
+      response.json({ result , success })
+    } catch (error) {
+      response.status(404).json({ error: error.name, success })
+    }
+  })
+
+  router.delete('/:coordinator/forum/:forum',
+    async ({ coordinator, params }, response) => {
+      var success = false
+      console.log(params)
+      try {
+        var coordinatorInstance = await coordinator
+        var result = coordinatorInstance.removeRelation("forums", {id: params.forum}).run()
+        success = true
+        response.json({ result, success })
+      } catch (error) {
+        console.log(error)
+        var errorMessage = getCorrectError(error, error.name, "Coordenador não encontrado.")
+        var errorStatus = getCorrectError(error, 404, 401)
+
+        response.status(errorStatus).json({ error: errorMessage, success })
+      }
+    })
+
+    router.get('/:coordinator/forum/:forum',
+      async ({ coordinator, params }, response) => {
+      var success = false
+      try {
+        var result = await coordinator.getJoin({
+          forums: true
+        }).run()
+
+        result.forums.forEach((forum) => {
+          console.log(forum)
+          if (forum.id === params.forum){
+            success = true
+          }
+        })
+
+        response.json({ success })
+      } catch (error) {
+        var errorMessage = getCorrectError(error,
+          error.name,
+          "Coordenador não encontrado",
+          "Dados inválidos de coordenador " + error.message
+        )
+
+        var statusError = getCorrectError(error,
+          404,
+          404,
+          400
+        )
+        response.status(statusError).json({ error: errorMessage })
+      }
+    })
 
   return router
 }

@@ -5,6 +5,8 @@ let Administrator = thinky.createModel('Administrator', {
   password: type.string().required(),
   email: type.string().required(),
   registration: type.string().required(),
+}, {
+  pk: 'registration'
 })
 
 export default Administrator
