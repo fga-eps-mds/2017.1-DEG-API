@@ -22,7 +22,8 @@ export default ({ config, db }) => {
   router.get('/:forum', async ({ forum }, response) => {
     var success = false
     try {
-      response.json({result: await forum, success: !success})
+      var result = await forum
+      response.json(result)
     } catch (error) {
       var errorMessage = getCorrectError(error,
         error.name,
