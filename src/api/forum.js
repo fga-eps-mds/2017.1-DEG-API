@@ -23,7 +23,7 @@ export default ({ config, db }) => {
     var success = false
     try {
       var result = await forum
-      response.json({ result, success: !success })
+      response.json(result)
     } catch (error) {
       var errorMessage = getCorrectError(error,
         error.name,
