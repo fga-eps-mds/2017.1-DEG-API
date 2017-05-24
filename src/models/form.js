@@ -7,6 +7,7 @@ var Form = thinky.createModel('Form', {
     answer: type.string()
   }],
   multipleChoices: [{
+    multiple_anwsers: type.boolean(),
     question: type.string(),
     options: [type.string()],
     answer: type.string()
