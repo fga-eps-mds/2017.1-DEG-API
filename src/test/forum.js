@@ -50,7 +50,7 @@ describe("Forum Tests", function () {
       .get('/api/forums/123456')
       .end((err, res) => {
         res.should.have.status(200)
-        res.body.result.theme.should.be.eql('Criação de novos horários para o intercampi')
+        res.body.theme.should.be.eql('Criação de novos horários para o intercampi')
         done()
       })
     })
@@ -80,7 +80,7 @@ describe("Forum Tests", function () {
         forum: {
           place: 'CPD Darcy Ribeiro',
           schedules: 'Internet do Campus',
-          date: '24/01/1999'
+          date: '01/24/2017'
         }
       }
 
@@ -101,11 +101,11 @@ describe("Forum Tests", function () {
     it('it should update a forum given the id', (done) => {
       chai.request(runningServer)
       .put('/api/forums/123456')
-      .send({forum: {id: '6544321'}})
+      .send({forum: {id: '654321'}})
       .end((err, res) => {
         res.should.have.status(200)
         res.body.should.be.a('object')
-        res.body.result.should.have.property('registration').eql('654321')
+        res.body.result.should.have.property('id').eql('654321')
         done()
       })
     })

@@ -10,7 +10,7 @@
     "devcheck": "babel-node src/server.js || true",
     "lint": "eslint --ext .js src || true",
     "prestart": "babel src -d dist --presets es2015,stage-2",
-    "test": "./node_modules/.bin/mocha src/test --timeout 10000 --compilers js:babel-core/register --reporter spec",
+    "test": "./node_modules/.bin/mocha src/test --timeout 10000 --compilers js:babel-core/register --reporter spec --bail",
     "seed": "babel-node src/seed.js"
   },
   "dependencies": {

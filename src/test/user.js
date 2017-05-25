@@ -37,11 +37,11 @@ describe("Admininistrator Tests", function () {
     it('it should post a admin', (done) => {
       let adminLogin = {
         password: 'Pb1234567',
-        registration: '543221'
+        registration: '12345678'
       }
 
       chai.request(runningServer)
-      .post('/api/authenticate')
+      .post('/api/users/authenticate')
       .send(adminLogin)
       .end((err, res) => {
         res.should.have.status(200)
@@ -58,20 +58,20 @@ describe("Admininistrator Tests", function () {
 
     it('it should post a coordinator', (done) => {
       let coordinatorLogin = {
-        password: 'Pb123456789',
-        registration: '543221'
+        password: 'Pb1234567',
+        registration: '123456789'
       }
 
       chai.request(runningServer)
-      .post('/api/authenticate')
+      .post('/api/users/authenticate')
       .send(coordinatorLogin)
       .end((err, res) => {
         res.should.have.status(200)
         res.body.should.be.a('object')
         res.body.coordinator.should.have.property('course')
+        res.body.coordinator.should.have.property('email')
         res.body.coordinator.should.have.property('name')
         res.body.coordinator.should.have.property('password')
-        res.body.coordinator.should.have.property('email')
         res.body.coordinator.should.have.property('registration')
         res.body.user.should.be.eql('coordinator')
         res.body.success.should.be.eql(true)
@@ -86,7 +86,7 @@ describe("Admininistrator Tests", function () {
       }
 
       chai.request(runningServer)
-      .post('/api/authenticate')
+      .post('/api/users/authenticate')
       .send(userNull)
       .end((err, res) => {
         res.should.have.status(200)

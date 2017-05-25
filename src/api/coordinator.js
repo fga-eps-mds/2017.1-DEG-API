@@ -46,7 +46,7 @@ export default ({ config, db }) => {
       success = true
       response.json({ result, success })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       var errorMessage = getCorrectError(error,
         error.name,
         "Coordenador não encontrado",
@@ -72,7 +72,7 @@ export default ({ config, db }) => {
       success = true
       response.json({ result, old, success })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       var statusError = getCorrectError(error,
         404,
         404,
@@ -146,7 +146,7 @@ export default ({ config, db }) => {
         }).run()
 
         result.forums.forEach((forum) => {
-          console.log(forum)
+          // console.log(forum)
           if (forum.id === params.forum){
             success = true
           }

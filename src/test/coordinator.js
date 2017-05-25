@@ -51,7 +51,7 @@ describe("Coordinator Tests", function () {
       .get('/api/coordinators/123456789')
       .end((err, res) => {
         res.should.have.status(200)
-        res.body.result.name.should.be.eql('Finn, The Human')
+        res.body.name.should.be.eql('Finn, The Human')
         done()
       })
     })
@@ -108,7 +108,7 @@ describe("Coordinator Tests", function () {
 
     it('it should update a coordinator given the registration', (done) => {
       chai.request(runningServer)
-      .put('/api/coordinator/123456789')
+      .put('/api/coordinators/111222333')
       .send({coordinator: {registration: '12345'}})
       .end((err, res) => {
         res.should.have.status(200)
