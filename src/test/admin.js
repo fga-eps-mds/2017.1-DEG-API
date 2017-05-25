@@ -37,7 +37,7 @@ describe("Admininistrator Tests", function () {
     it('should get all administrators', (done) => {
       chai.request(runningServer)
       .get('/api/administrators')
-      .end((err, res) =>{
+      .end((err, res) => {
         res.should.have.status(200)
         res.body.should.be.a('array')
         res.body.length.should.be.eql(2)
@@ -48,9 +48,76 @@ describe("Admininistrator Tests", function () {
     it('should get one administrator', (done) => {
       chai.request(runningServer)
       .get('/api/administrators/87654321')
-      .end((err, res) =>{
+      .end((err, res) => {
         res.should.have.status(200)
         res.body.result.name.should.be.eql('Jake, The Dog')
+        done()
+      })
+    })
+
+    it('it should not post a admin without email field', (done) => {
+      let admin = {
+        administrator: {
+          name: 'Vitor Bertulucci',
+          password: 'Vb1234567',
+          registration: '12345'
+        }
+      }
+
+      chai.request(runningServer)
+      .post('/api/administrators')
+      .send(admin)
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.be.a('object')
+        res.body.should.have.property('error')
+        res.body.success.should.be.eql(false)
+        done()
+      })
+    })
+
+    it('it should post a admin', (done) => {
+      let admin = {
+        administrator: {
+          name: 'Vitor Bertulucci',
+          password: 'Vb1234567',
+          email: 'vitor@b.com',
+          registration: '12345'
+        }
+      }
+
+      chai.request(runningServer)
+      .post('/api/administrators')
+      .send(admin)
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.a('object')
+        res.body.result.should.have.property('name')
+        res.body.result.should.have.property('password')
+        res.body.result.should.have.property('email')
+        res.body.result.should.have.property('registration')
+        done()
+      })
+    })
+
+    it('it should update a admin given the registration', (done) => {
+      chai.request(runningServer)
+      .put('/api/administrators/87654321')
+      .send({administrator: {registration: '12345'}})
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.a('object')
+        res.body.result.should.have.property('registration').eql('12345')
+        done()
+      })
+    })
+
+    it('it should delete a admin given the id', (done) => {
+      chai.request(runningServer)
+      .delete('/api/administrators/87654321')
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.success.should.be.eql(true)
         done()
       })
     })
