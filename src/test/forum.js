@@ -13,7 +13,7 @@ const response = {
   send: function () {}
 }
 let runningServer
-describe("Admininistrator Tests", function () {
+describe("Forum Tests", function () {
   before(done => {
     setTimeout(function () {
       runningServer = server
@@ -33,40 +33,39 @@ describe("Admininistrator Tests", function () {
     done()
   })
 
-  describe('Administrator', function () {
-    it('should get all administrators', (done) => {
+  describe('Forum', function () {
+    it('should get all forums', (done) => {
       chai.request(runningServer)
-      .get('/api/administrators')
+      .get('/api/forums')
       .end((err, res) => {
         res.should.have.status(200)
         res.body.should.be.a('array')
-        res.body.length.should.be.eql(2)
+        res.body.length.should.be.eql(3)
         done()
       })
     })
 
-    it('should get one administrator', (done) => {
+    it('should get one forum', (done) => {
       chai.request(runningServer)
-      .get('/api/administrators/87654321')
+      .get('/api/forums/123456')
       .end((err, res) => {
         res.should.have.status(200)
-        res.body.result.name.should.be.eql('Jake, The Dog')
+        res.body.result.theme.should.be.eql('Criação de novos horários para o intercampi')
         done()
       })
     })
 
-    it('it should not post a admin without email field', (done) => {
-      let admin = {
-        administrator: {
-          name: 'Vitor Bertulucci',
-          password: 'Vb1234567',
-          registration: '12345'
+    it('it should not post a forum without date field', (done) => {
+      let forum = {
+        forum: {
+          place: 'CPD Darcy Ribeiro',
+          schedules: 'Internet do Campus'
         }
       }
 
       chai.request(runningServer)
-      .post('/api/administrators')
-      .send(admin)
+      .post('/api/forums')
+      .send(forum)
       .end((err, res) => {
         res.should.have.status(404)
         res.body.should.be.a('object')
@@ -76,46 +75,44 @@ describe("Admininistrator Tests", function () {
       })
     })
 
-    it('it should post a admin', (done) => {
-      let admin = {
-        administrator: {
-          name: 'Vitor Bertulucci',
-          password: 'Vb1234567',
-          email: 'vitor@b.com',
-          registration: '12345'
+    it('it should post a forum', (done) => {
+      let forum = {
+        forum: {
+          place: 'CPD Darcy Ribeiro',
+          schedules: 'Internet do Campus',
+          date: '24/01/1999'
         }
       }
 
       chai.request(runningServer)
-      .post('/api/administrators')
-      .send(admin)
+      .post('/api/forums')
+      .send(forum)
       .end((err, res) => {
         res.should.have.status(200)
         res.body.should.be.a('object')
-        res.body.result.should.have.property('name')
-        res.body.result.should.have.property('password')
-        res.body.result.should.have.property('email')
-        res.body.result.should.have.property('registration')
+        res.body.result.should.have.property('place')
+        res.body.result.should.have.property('schedules')
+        res.body.result.should.have.property('date')
         res.body.success.should.be.eql(true)
         done()
       })
     })
 
-    it('it should update a admin given the registration', (done) => {
+    it('it should update a forum given the id', (done) => {
       chai.request(runningServer)
-      .put('/api/administrators/87654321')
-      .send({administrator: {registration: '12345'}})
+      .put('/api/forums/123456')
+      .send({forum: {id: '6544321'}})
       .end((err, res) => {
         res.should.have.status(200)
         res.body.should.be.a('object')
-        res.body.result.should.have.property('registration').eql('12345')
+        res.body.result.should.have.property('registration').eql('654321')
         done()
       })
     })
 
-    it('it should delete a admin given the registration', (done) => {
+    it('it should delete a forum given the id', (done) => {
       chai.request(runningServer)
-      .delete('/api/administrators/87654321')
+      .delete('/api/forums/123456')
       .end((err, res) => {
         res.should.have.status(200)
         res.body.success.should.be.eql(true)
