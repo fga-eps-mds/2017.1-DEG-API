@@ -128,5 +128,40 @@ describe("Coordinator Tests", function () {
       })
     })
 
+    it('it should post a presence of the coordinator in the forum', (done) => {
+      chai.request(runningServer)
+      .post('/api/coordinators/123456789/forum/123456')
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.a('object')
+        res.body.result.should.have.property('isFulfilled').eql(false)
+        res.body.result.should.have.property('isRejected').eql(false)
+        res.body.success.should.be.eql(true)
+        done()
+      })      
+    })
+
+    it('it should get a presence of the coordinator in the forum', (done) => {
+      chai.request(runningServer)
+      .post('/api/coordinators/123456789/forum/123456')
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.a('object')
+        res.body.success.should.be.eql(true)
+        done()
+      })
+    })
+
+    it('it should delete a presence of the coordinator in the forum', (done) => {
+      chai.request(runningServer)
+      .delete('/api/coordinators/123456789/forum/123456')
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.a('object')
+        res.body.success.should.be.eql(true)
+        done()
+      })
+    })
+
   })
 })
