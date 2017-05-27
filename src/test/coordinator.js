@@ -128,7 +128,7 @@ describe("Coordinator Tests", function () {
       })
     })
 
-    it('should not put one coordinators', (done) => {
+    it('should not update one coordinators', (done) => {
       chai.request(runningServer)
       .put('/api/coordinators/123')
       .end((err, res) => {
@@ -149,6 +149,17 @@ describe("Coordinator Tests", function () {
       })
     })
 
+    it('should not delete one coordinator given the registration', (done) => {
+      chai.request(runningServer)
+      .delete('/api/coordinators/123')
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
+        res.body.success.should.be.eql(false)
+        done()
+      })
+    })
+
     it('it should post a presence of the coordinator in the forum', (done) => {
       chai.request(runningServer)
       .post('/api/coordinators/123456789/forum/123456')
@@ -162,13 +173,34 @@ describe("Coordinator Tests", function () {
       })      
     })
 
+    it('it should not post a presence of the coordinator in the forum', (done) => {
+      chai.request(runningServer)
+      .post('/api/coordinators/123/forum/123')
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
+        res.body.success.should.be.eql(false)
+        done()
+      })
+    })
+
     it('it should get a presence of the coordinator in the forum', (done) => {
       chai.request(runningServer)
-      .post('/api/coordinators/123456789/forum/123456')
+      .get('/api/coordinators/123456789/forum/123456')
       .end((err, res) => {
         res.should.have.status(200)
         res.body.should.be.a('object')
         res.body.success.should.be.eql(true)
+        done()
+      })
+    })
+
+    it('it should not get a presence of the coordinator in the forum', (done) => {
+      chai.request(runningServer)
+      .get('/api/coordinators/123/forum/123')
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
         done()
       })
     })
@@ -184,11 +216,11 @@ describe("Coordinator Tests", function () {
       })
     })
 
-    it('should delete put one coordinator', (done) => {
+    it('it should not delete a presence of the coordinator in the forum', (done) => {
       chai.request(runningServer)
-      .delete('/api/coordinators/123')
+      .delete('/api/coordinators/123/forum/123')
       .end((err, res) => {
-        res.should.have.status(404)
+        res.should.have.status(401)
         res.body.should.have.property('error')
         res.body.success.should.be.eql(false)
         done()
