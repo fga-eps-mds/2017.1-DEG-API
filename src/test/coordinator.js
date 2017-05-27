@@ -56,6 +56,16 @@ describe("Coordinator Tests", function () {
       })
     })
 
+    it('should not get one coordinator', (done) => {
+      chai.request(runningServer)
+      .get('/api/coordinators/123')
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
+        done()
+      })
+    })
+
     it('it should not post a coordinator without email field', (done) => {
       let coordinator = {
         coordinator: {
@@ -118,6 +128,17 @@ describe("Coordinator Tests", function () {
       })
     })
 
+    it('should not put one coordinators', (done) => {
+      chai.request(runningServer)
+      .put('/api/coordinators/123')
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
+        res.body.success.should.be.eql(false)
+        done()
+      })
+    })
+
     it('it should delete a coordinator given the registration', (done) => {
       chai.request(runningServer)
       .delete('/api/coordinators/123456789')
@@ -159,6 +180,17 @@ describe("Coordinator Tests", function () {
         res.should.have.status(200)
         res.body.should.be.a('object')
         res.body.success.should.be.eql(true)
+        done()
+      })
+    })
+
+    it('should delete put one coordinator', (done) => {
+      chai.request(runningServer)
+      .delete('/api/coordinators/123')
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
+        res.body.success.should.be.eql(false)
         done()
       })
     })

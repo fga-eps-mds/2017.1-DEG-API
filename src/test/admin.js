@@ -144,7 +144,7 @@ describe("Admininistrator Tests", function () {
       })
     })
 
-    it('should not put one administrator', (done) => {
+    it('should delete put one administrator', (done) => {
       chai.request(runningServer)
       .delete('/api/administrators/123')
       .end((err, res) => {
