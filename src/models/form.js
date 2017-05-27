@@ -1,8 +1,17 @@
 import { thinky, type } from '../db'
 
 var Form = thinky.createModel('Form', {
-  question: type.string().required(),
-  date: type.date()
+  title: type.string().required(),
+  discussive: [{
+    question: type.string(),
+    answer: type.string()
+  }],
+  multipleChoices: [{
+    multiple_anwsers: type.boolean(),
+    question: type.string(),
+    options: [type.string()],
+    answer: type.string()
+  }]
 })
 
 export default Form
