@@ -55,6 +55,16 @@ describe("Admininistrator Tests", function () {
       })
     })
 
+    it('should not get one administrator', (done) => {
+      chai.request(runningServer)
+      .get('/api/administrators/123')
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
+        done()
+      })
+    })
+
     it('it should not post a admin without email field', (done) => {
       let admin = {
         administrator: {
@@ -113,12 +123,34 @@ describe("Admininistrator Tests", function () {
       })
     })
 
+    it('should not put one administrator', (done) => {
+      chai.request(runningServer)
+      .put('/api/administrators/123')
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
+        res.body.success.should.be.eql(false)
+        done()
+      })
+    })
+
     it('it should delete a admin given the registration', (done) => {
       chai.request(runningServer)
       .delete('/api/administrators/87654321')
       .end((err, res) => {
         res.should.have.status(200)
         res.body.success.should.be.eql(true)
+        done()
+      })
+    })
+
+    it('should not put one administrator', (done) => {
+      chai.request(runningServer)
+      .delete('/api/administrators/123')
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
+        res.body.success.should.be.eql(false)
         done()
       })
     })
