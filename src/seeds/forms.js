@@ -4,6 +4,7 @@ export default {
   model: Form,
   items: [
     {
+      id: "1",
       title: "Formulário 1",
       multipleChoices: [
         {

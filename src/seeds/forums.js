@@ -4,6 +4,7 @@ export default {
   model: Forum,
   items: [
     {
+      id: "123456",
       date: "06/30/2017",
       hour: 36000,
       place: "CPD Darcy Ribeiro",

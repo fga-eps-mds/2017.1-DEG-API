@@ -43,11 +43,16 @@ export default ({ config, db }) => {
   router.post('/', async ({ body }, response) => {
     var success = false
     try {
-      body.forum.date = new Date(body.forum.date)
-      var result = await Forum.save(body.forum)
-      response.json({result, success: !success})
+      if (body.forum.date) {
+        body.forum.date = new Date(body.forum.date)
+        var result = await Forum.save(body.forum)
+        response.json({result, success: !success})
+      } else {
+        var error = {name: 'Dados inválidos de fórum. Data inválida.'}
+        throw {name: 'Dados inválidos de fórum. Data inválida.'}
+      }
     } catch (error) {
-      var statusError = getCorrectError(error, 404,404, 400, 400)
+      var statusError = getCorrectError(error, 404, 404, 400, 400)
       var errorMessage = getCorrectError(error,
         error.name,
         "Forum não encontrado",

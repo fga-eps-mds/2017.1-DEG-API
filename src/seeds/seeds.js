@@ -1,4 +1,5 @@
 import seeds from '.'
+import { init } from '../db'
 
 async function seed () {
   var promises = []
@@ -10,6 +11,7 @@ async function seed () {
         promises.push(await model.save())
       } catch (error) {
         console.log(error)
+        promises.push(false)
       }
     }
   }
@@ -18,7 +20,22 @@ async function seed () {
 }
 
 async function drop () {
-  return seeds.forEach(async s => s.model.delete())
+  return new Promise((resolve, reject) => {
+    init()
+    .then(db => {
+      var promises = []
+      seeds.forEach(async (s) => {
+        var modelName = s.model.getTableName()
+        try {
+          promises.push(db.r.table(modelName).delete().run())
+        } catch (error) {
+          console.log('Fail at drop' + modelName)
+          console.log(error)
+        }
+      })
+      resolve(Promise.all(promises))
+    })
+  })
 }
 
 async function main (flag) {
@@ -26,6 +43,7 @@ async function main (flag) {
     await drop()
   }
   var result = await seed()
+
   if (flag !== '--no-kill') {
     process.exit(0)
   }
