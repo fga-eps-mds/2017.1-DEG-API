@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import Administrator from '../models/admin'
 import { getCorrectError } from '../helpers/errorHandling'
+import _ from 'lodash'
 
 export default ({ config, db }) => {
   let router = Router()
@@ -21,7 +22,7 @@ export default ({ config, db }) => {
   router.get('/:administrator', async ({ administrator }, response) => {
     try {
       var result = await administrator
-      // console.log(result)
+      // result = _.pick(result, ['registration', 'name', 'email'])
       response.json(result)
     } catch (error) {
       var errorMessage = getCorrectError(error,

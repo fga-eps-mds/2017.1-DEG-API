@@ -50,7 +50,7 @@ describe("Admininistrator Tests", function () {
       .get('/api/administrators/87654321')
       .end((err, res) => {
         res.should.have.status(200)
-        res.body.result.name.should.be.eql('Jake, The Dog')
+        res.body.name.should.be.eql('Jake, The Dog')
         done()
       })
     })

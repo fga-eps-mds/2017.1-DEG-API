@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import Coordinator from '../models/coordinator'
 import { getCorrectError } from '../helpers/errorHandling'
+import _ from 'lodash'
 
 export default ({ config, db }) => {
   let router = Router()
@@ -21,6 +22,7 @@ export default ({ config, db }) => {
   router.get('/:coordinator', async ({ coordinator }, response) => {
     try {
       var result = await coordinator.getJoin({forums: true}).run()
+      // result = _.pick(result, ['registration', 'name', 'email', 'course', 'forums'])
       response.json(result)
     } catch (error) {
       var errorMessage = getCorrectError(error,

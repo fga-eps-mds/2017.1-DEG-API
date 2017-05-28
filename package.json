@@ -23,6 +23,7 @@
     "babel-preset-stage-2": "^6.24.1",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "lodash": "^4.17.4",
     "morgan": "^1.8.1",
     "nodemon": "^1.11.0",
     "thinky": "^2.3.8",
