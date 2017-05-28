@@ -6,7 +6,6 @@ export default ({ config, db }) => {
   let router = Router()
 
   router.param('administrator', (req, res, next, registration) => {
-    console.log(registration)
     req.administrator = Administrator.get(registration)
     next()
   })
@@ -22,8 +21,8 @@ export default ({ config, db }) => {
   router.get('/:administrator', async ({ administrator }, response) => {
     try {
       var result = await administrator
-      console.log(result)
-      response.json({ result })
+      // console.log(result)
+      response.json(result)
     } catch (error) {
       var errorMessage = getCorrectError(error,
         error.name,
@@ -96,7 +95,7 @@ export default ({ config, db }) => {
       success = true
       response.json({ result, success })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       var errorMessage = getCorrectError(error,
         error.name,
         "Administrador não encontrado"

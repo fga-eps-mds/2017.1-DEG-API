@@ -41,7 +41,6 @@ export default ({ config, db }) => {
   router.post('/', async ({ body, query }, response) => {
     var success = false
     try {
-      console.log(body.coordinator)
       var result = await Coordinator.save(body.coordinator)
       success = true
       response.json({ result, success })
@@ -122,14 +121,13 @@ export default ({ config, db }) => {
   router.delete('/:coordinator/forum/:forum',
     async ({ coordinator, params }, response) => {
       var success = false
-      console.log(params)
       try {
         var coordinatorInstance = await coordinator
         var result = coordinatorInstance.removeRelation("forums", {id: params.forum}).run()
         success = true
         response.json({ result, success })
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         var errorMessage = getCorrectError(error, error.name, "Coordenador não encontrado.")
         var errorStatus = getCorrectError(error, 404, 401)
 

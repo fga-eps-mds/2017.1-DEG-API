@@ -9,18 +9,6 @@ export default ({ config, db }) => {
     next()
   })
 
-  // "form": {
-  //   "discussive": [{
-  //     "question": "Sera que funfa?",
-  //     "answer": "Talvez."
-  //   }],
-  //   "multipleChoices": [{
-  //     "question": "Qual vai dar certo?",
-  //     "options": ["A", "B", "C", "D"],
-  //     "answer": "A"
-  //   }]
-  // }
-
   router.get('/', async (request, response) => {
     try {
       response.json(await Form.run())
@@ -47,7 +35,7 @@ export default ({ config, db }) => {
       var result = await Form.save(body.form)
       response.json({ result, success: !success })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       response.status(404).json({error: error.name, success})
     }
   })
@@ -84,64 +72,6 @@ export default ({ config, db }) => {
         "Form não encontrado"
       )
       response.status(404).json({ error: errorMessage, success })
-    }
-  })
-
-  router.get('/:form/forum/:forum',
-    async({ form, params }, response) => {
-      var success = false
-      try {
-        var relation = await form.getJoin({
-          forum: true
-        }).run()
-
-        if (relation.forum !== undefined && relation.forum !== null){
-          success = (relation.forum.id === params.forum)
-        }
-
-        response.json({ success })
-      } catch (error) {
-        console.log(error)
-        var errorMessage = getCorrectError(error,
-          error.name,
-          "Formulário não encontrado",
-          "Dados inválidos de formulário " + error.message
-        )
-
-        var statusError = getCorrectError(error,
-          404,
-          404,
-          400
-        )
-        response.status(statusError).json({ error: errorMessage })
-      }
-  })
-
-  router.post('/:form/forum/:forum',
-    async ({ form, params }, response) => {
-    var success = false
-    try {
-      var formInstance = await form
-      var result = formInstance.addRelation('forum', {id: params.forum})
-
-      response.json({ result, success: !success })
-    } catch (error) {
-      response.status(404).json({ error: error.name, success })
-    }
-  })
-
-  router.delete('/:form/forum/:forum',
-    async ({ form, params }, response) => {
-    var success = false
-    try {
-      var formInstance = await form
-      var result = formInstance.removeRelation('forum', {id: params.forum}).run()
-
-      response.json({result, success: !success })
-    } catch (error) {
-      console.log(error)
-
-      response.status(404).json({ error: error.name, success })
     }
   })
 
