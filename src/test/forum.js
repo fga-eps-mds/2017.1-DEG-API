@@ -55,6 +55,17 @@ describe("Forum Tests", function () {
       })
     })
 
+    it('it should not get one forumr', (done) => {
+      chai.request(runningServer)
+      .get('/api/forums/123')
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
+        res.body.success.should.be.eql(false)
+        done()
+      })
+    })
+
     it('it should not post a forum without date field', (done) => {
       let forum = {
         forum: {
@@ -110,12 +121,34 @@ describe("Forum Tests", function () {
       })
     })
 
+    it('it should not put one forumr', (done) => {
+      chai.request(runningServer)
+      .put('/api/forums/123')
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
+        res.body.success.should.be.eql(false)
+        done()
+      })
+    })
+
     it('it should delete a forum given the id', (done) => {
       chai.request(runningServer)
       .delete('/api/forums/123456')
       .end((err, res) => {
         res.should.have.status(200)
         res.body.success.should.be.eql(true)
+        done()
+      })
+    })
+
+    it('it should not delete one forumr', (done) => {
+      chai.request(runningServer)
+      .delete('/api/forums/123')
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
+        res.body.success.should.be.eql(false)
         done()
       })
     })
