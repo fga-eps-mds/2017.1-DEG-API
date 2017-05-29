@@ -4,218 +4,28 @@
 
 Contruido em `Nodejs` e `RethinkDB`.
 
-## Rotas
+## [Documentação](https://github.com/fga-gpp-mds/2017.1-DEG-API/wiki)
 
-* `/api` - Rota principal da aplicação
-  * [`/coordinators`](#Coordinators) - Rota de acesso para os coordenadores
+## Instalação
 
+* ### Instalação do Nodejs
+Entre no [website do Nodejs](https://nodejs.org/en/), vá para os [downloads](https://nodejs.org/en/download/), selecione sua plataforma e faça o download da vesão atual (Current Version).    
+Siga os passos do instalador.
+* ### Instalação do Yarn
+Para instalar o Yarn siga os passos no [website oficial](https://yarnpkg.com/en/docs/install).
+* ### Instalação do RethinkDB
+Instale o RethinkDB utilizando os passos providos no [website oficial](https://www.rethinkdb.com/docs/install/) para sua plataforma.
+* ### Utilização da API
+	* Para começar a utilizar a API, clone o repositório:    
+	```git clone https://github.com/fga-gpp-mds/2017.1-DEG-API.git```     
+	* Vá para a pasta raiz e digite o comando `yarn`, para instalar todas as dependências necessárias.    
+	* Após isso abra outra aba do seu terminal e rode o comando `rethinkdb` na raiz da pasta do projeto. (Toda vez que esse comando é executado, caso não exista uma pasta rethinkdb ela é criada para armazenar os dados, então tente sempre rodar no mesmo diretório)    
+	* Logo após rode o comando `yarn run seed`, para popular o banco local.    
+	* Então rode o comando `yarn run dev`, para ligar a API na porta 3000.
 
-## Relacionamentos
-* Coordenador - Forum ( N x M )
-  * [`/coordinators/:matricula/forums/:forumId`](#Coordinators-Forum-(Relacionamento-NxM))
-
-### Coordinators
-
-Aceita os métodos de `GET`, `POST`, `UPDATE`, `DELETE`.
-
-URL de acesso: `api/coordinators`
-
-#### GET
-* **All:**   
-URL Genérica `/api/coordinators`
-
-##### Resposta
-```json
-[{
-  "registration": "1234567",
-  "name": "José Silva",
-  "password": "123456aA",
-  "email": "a@a.com",
-  "course": "Engenharia de Software"
-}, {}, ...]
-```
-* **Single:**    
-URL Genérica `/api/coordinators/:registration`    
-Exemplo de uso `/api/coordinators/130123456`
-
-##### Resposta
-```json
-{
-  "registration": "1234567",
-  "name": "José Silva",
-  "password": "123456aA",
-  "email": "a@a.com",
-  "course": "Engenharia de Software"
-}
-```
-
-
-#### POST
-
-Acionado via request body.   
-URL Genérica `/api/coordinators`   
-Exemplo de request:
-
-Exemplo Body:
-```json
-{
-	"coordinator": {
-		"registration": "1234567",
-		"name": "José Silva",
-		"password": "123456aA",
-		"email": "a@a.com",
-		"course": "Engenharia de Software"
-	}
-}
-```
-
-##### Resposta
-* Positiva:
-```json
-{
-  "result": {
-    "registration": "123456789",
-    "name": "José Silva",
-    "password": "123456aA",
-    "email": "a@a.com",
-    "course": "Engenharia de Software"
-  },
-  "success": true
-}
-```
-
-* Negativa:
-
-```json
-{
-  "error": "Mensagem Error",
-  "success": false
-}
-```
-
-#### UPDATE (PUT)
-Acionado via request body.   
-
-URL Genérica `/api/coordinators/:registration`   
-Exemplo de uso `/api/coordinators/130123456`
-
-Exemplo Body:
-```json
-// Necessita apenas dos parâmetros a serem modificados
-// Podendo omitir alguns que não serão modificados
-{
-	"coordinator": {
-		"name": "João Silva"
-	}
-}
-```
-
-##### Resposta
-* Positiva
-```json
-{
-  "result": {
-    "registration": "123456789",
-    "name": "João Silva",
-    "password": "123456aA",
-    "email": "a@a.com",
-    "course": "Engenharia de Software"
-  },
-  "old": {
-    "registration": "123456789",
-    "name": "José Silva",
-    "password": "123456aA",
-    "email": "a@a.com",
-    "course": "Engenharia de Software"
-  },
-  "success": true
-}
-```
-
-* Negativa:
-
-```json
-{
-  "error": "Mensagem Error",
-  "success": false
-}
-```
-#### DELETE
-URL Genérica `/api/coordinators/:registration`   
-Exemplo de uso `/api/coordinators/130123456`
-
-##### Resposta
-* Positiva:
-```json
-{
-  "result": {
-    "registration": "123456789",
-    "name": "José Silva",
-    "password": "123456aA",
-    "email": "a@a.com",
-    "course": "Engenharia de Software"
-  },
-  "success": true
-}
-```
-
-* Negativa:
-
-```json
-{
-  "error": "Mensagem Error",
-  "success": false
-}
-```
-
-### Coordinators_Forum (Relacionamento NxM)
-
-URL Genérica `/coordinators/:matricula/forums/:forumId`   
-Exemplo de uso `/coordinators/124567234/forums/a183be7e-b4d2-4a42-bdcf-bf6ad4b0d8fe`    
-
-#### Aceita os métodos de `GET`, `POST`, `DELETE`
-
-#### GET (Se um usuário está confirmado em um Forum)
-##### Resposta
-* Positiva:
-```json
-{
-  "success": true
-}
-```
-* Negativa:
-```json
-{
-  "success": false
-}
-```
-
-#### POST (Confirma presença do coordenador)
-##### Resposta
-* Positiva:
-```json
-{
-  "success": true
-}
-```
-* Negativa:
-```json
-{
-  "success": false
-}
-```
-
-#### DELETE (Cancela presença do coordenador)
-##### Resposta
-* Positiva:
-```json
-{
-  "success": true
-}
-```
-* Negativa:
-```json
-{
-  "success": false
-}
-```
+## Comandos disponíveis
+* `yarn run start`: Roda a aplicação com configurações de produção.
+* `yarn run dev`: Roda a aplicação com configurações de desenvolvimento.
+* `yarn run seed`: Limpa e popula o banco de dados local.
+* `yarn run coverage`: Roda os testes unitários juntamente com a cobertura de código.
+* `yarn run show-coverage`: Abre a interface de cobertura de código.
