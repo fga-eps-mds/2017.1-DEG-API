@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import Forum from '../models/forum'
 import { getCorrectError } from '../helpers/errorHandling'
+import _ from 'lodash'
 
 export default ({ config, db }) => {
   let router = Router()
@@ -22,7 +23,15 @@ export default ({ config, db }) => {
   router.get('/:forum', async ({ forum }, response) => {
     var success = false
     try {
-      var result = await forum
+      var result = await forum.getJoin({
+        coordinators: {
+          _apply: (coordinators) => {
+            return coordinators.count()
+          },
+          _array: false
+        }
+      }).run()
+
       response.json(result)
     } catch (error) {
       var errorMessage = getCorrectError(error,
@@ -97,6 +106,24 @@ export default ({ config, db }) => {
         "Forum não encontrado"
       )
       response.status(404).json({ error: errorMessage, success })
+    }
+  })
+
+  router.get('/:forum/confirmations', async ({ forum }, response) => {
+    var success = false
+    try {
+      var forumResult = await forum.getJoin({
+        coordinators: true
+      }).run()
+
+      var result = forumResult.coordinators.map((coord) => {
+        return _.pick(coord, ['email', 'course', 'registration', 'name'])
+      })
+
+      response.json({ result, success: !success })
+    } catch (error) {
+      console.log(error)
+      response.status(500).json({ error: error, success })
     }
   })
 

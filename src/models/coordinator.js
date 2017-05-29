@@ -13,17 +13,13 @@ var Coordinator = thinky.createModel('Coordinator', {
   pk: 'registration'
 })
 
-Coordinator.defineStatic("getView", function() {
-    return this.without('password')
-})
-
 Form.hasAndBelongsToMany(Coordinator, 'coordinators', 'id', 'registration')
 Coordinator.hasAndBelongsToMany(Form, 'forms', 'id', 'id')
 Forum.hasAndBelongsToMany(Coordinator, 'coordinators', 'id', 'registration')
 Coordinator.hasAndBelongsToMany(Forum, 'forums', 'registration', 'id')
 
-Forum.hasMany(Form, 'forms', 'id', 'forumId')
-Form.belongsTo(Forum, 'forum', 'forumId', 'id')
+// Forum.hasMany(Form, 'forms', 'id', 'forumId')
+// Form.belongsTo(Forum, 'forum', 'forumId', 'id')
 Notification.belongsTo(Forum, 'forum', 'forumId', 'id')
 Forum.hasMany(Notification, 'notifications', 'id', 'forumId')
 

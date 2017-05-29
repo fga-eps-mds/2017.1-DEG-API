@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import Coordinator from '../models/coordinator'
 import { getCorrectError } from '../helpers/errorHandling'
+import _ from 'lodash'
 
 export default ({ config, db }) => {
   let router = Router()
@@ -21,6 +22,7 @@ export default ({ config, db }) => {
   router.get('/:coordinator', async ({ coordinator }, response) => {
     try {
       var result = await coordinator.getJoin({forums: true}).run()
+      // result = _.pick(result, ['registration', 'name', 'email', 'course', 'forums'])
       response.json(result)
     } catch (error) {
       var errorMessage = getCorrectError(error,
@@ -41,7 +43,6 @@ export default ({ config, db }) => {
   router.post('/', async ({ body, query }, response) => {
     var success = false
     try {
-      console.log(body.coordinator)
       var result = await Coordinator.save(body.coordinator)
       success = true
       response.json({ result, success })
@@ -122,14 +123,13 @@ export default ({ config, db }) => {
   router.delete('/:coordinator/forum/:forum',
     async ({ coordinator, params }, response) => {
       var success = false
-      console.log(params)
       try {
         var coordinatorInstance = await coordinator
         var result = coordinatorInstance.removeRelation("forums", {id: params.forum}).run()
         success = true
         response.json({ result, success })
       } catch (error) {
-        console.log(error)
+        // console.log(error)
         var errorMessage = getCorrectError(error, error.name, "Coordenador não encontrado.")
         var errorStatus = getCorrectError(error, 404, 401)
 

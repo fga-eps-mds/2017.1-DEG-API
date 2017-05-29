@@ -47,21 +47,5 @@ export default ({ config, db }) => {
     }
   })
 
-  router.get('/', async ({ params }, response) => {
-    try {
-      response.json(await User.run())
-    } catch (err) {
-      response.status(404).json({ error: err.name })
-    }
-  })
-
-  router.get('/:user', async ({ user }, response) => {
-    try {
-      response.json(await user)
-    } catch (err) {
-      response.status(404).json({ error: err.name })
-    }
-  })
-
   return router
 }

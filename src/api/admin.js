@@ -1,12 +1,12 @@
 import { Router } from 'express'
 import Administrator from '../models/admin'
 import { getCorrectError } from '../helpers/errorHandling'
+import _ from 'lodash'
 
 export default ({ config, db }) => {
   let router = Router()
 
   router.param('administrator', (req, res, next, registration) => {
-    console.log(registration)
     req.administrator = Administrator.get(registration)
     next()
   })
@@ -22,8 +22,8 @@ export default ({ config, db }) => {
   router.get('/:administrator', async ({ administrator }, response) => {
     try {
       var result = await administrator
-      console.log(result)
-      response.json({ result })
+      // result = _.pick(result, ['registration', 'name', 'email'])
+      response.json(result)
     } catch (error) {
       var errorMessage = getCorrectError(error,
         error.name,
@@ -96,7 +96,7 @@ export default ({ config, db }) => {
       success = true
       response.json({ result, success })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       var errorMessage = getCorrectError(error,
         error.name,
         "Administrador não encontrado"
