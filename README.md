@@ -23,7 +23,7 @@ Instale o RethinkDB utilizando os passos providos no [website oficial](https://w
 * Logo após rode o comando `yarn run seed`, para popular o banco local.    
 * Então rode o comando `yarn run dev`, para ligar a API na porta 3000.
 * Para a utilização da API é recomendavel a utilização de alguma ferramenta que gerencie requisições http. Para tanto recomendamos a utilização do [Postman](https://www.getpostman.com).
-  * Caro queira existe um [arquivo com as requisições já configuradas]() para o Postman. Apenas vá na opção import e selecione o arquivo.
+   * Caso queira, existe um [arquivo com as requisições já configuradas]() para o Postman. Apenas vá na opção import e selecione o arquivo.
 
 ## Comandos disponíveis
 * `yarn run start`: Roda a aplicação com configurações de produção.
