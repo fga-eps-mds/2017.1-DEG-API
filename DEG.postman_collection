@@ -1,0 +1,565 @@
+{
+	"variables": [],
+	"info": {
+		"name": "DEG",
+		"_postman_id": "9d44a35e-0cb9-952d-05b3-2ac3050516de",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Administrator",
+			"description": "",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"url": "http://localhost:3000/api/administrators",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Create Admin",
+					"request": {
+						"url": "http://localhost:3000/api/administrators",
+						"method": "POST",
+						"header": [
+							{
+								"key": "//Eae",
+								"value": "Aloo",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"administrator\": {\n    \"email\": \"marcy@vamp.ooo\",\n    \"password\": \"Pb1234567\",\n    \"registration\": \"543221\",\n    \"name\": \"Marceline\"\n  }\n}\n"
+						},
+						"description": "Post for new administrator"
+					},
+					"response": []
+				},
+				{
+					"name": "Get One",
+					"request": {
+						"url": "http://localhost:3000/api/administrators/543221",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update Admin",
+					"request": {
+						"url": "http://localhost:3000/api/administrators/12345678",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "//Eae",
+								"value": "Aloo",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"administrator\": {\n    \"email\": \"jake@thedog.Ooo\"\n  }\n}\n"
+						},
+						"description": "Post for new administrator"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Admin",
+					"request": {
+						"url": "http://localhost:3000/api/administrators/12345678",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Coordenadores",
+			"description": "",
+			"item": [
+				{
+					"name": "Get All Coord",
+					"request": {
+						"url": "http://localhost:3000/api/coordinators",
+						"method": "GET",
+						"header": [
+							{
+								"key": "//Eae",
+								"value": "Aloo",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"coordinator\": {\n\t\t\"registration\": \"1234567\",\n\t\t\"name\": \"oiio\", \n\t\t\"password\": \"eae\",\n\t\t\"email\": \"a@a.com\",\n\t\t\"course\": \"Engenharia\"\n\t}\n}"
+						},
+						"description": "Delete for new coordinator"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Coord",
+					"request": {
+						"url": "http://localhost:3000/api/coordinators",
+						"method": "POST",
+						"header": [
+							{
+								"key": "//Eae",
+								"value": "Aloo",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"coordinator\": {\n\t\t\"registration\": \"123456789\",\n\t\t\"name\": \"José Silva\",\n\t\t\"password\": \"123456aA\",\n\t\t\"email\": \"a@a.com\",\n\t\t\"course\": \"Engenharia de Software\"\n\t}\n}"
+						},
+						"description": "Post for new coordinator"
+					},
+					"response": []
+				},
+				{
+					"name": "Get One Coord",
+					"request": {
+						"url": "http://localhost:3000/api/coordinators/123456789",
+						"method": "GET",
+						"header": [
+							{
+								"key": "//Eae",
+								"value": "Aloo",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"coordinator\": {\n\t\t\"registration\": \"1234567\",\n\t\t\"name\": \"oiio\", \n\t\t\"password\": \"eae\",\n\t\t\"email\": \"a@a.com\",\n\t\t\"course\": \"Engenharia\"\n\t}\n}"
+						},
+						"description": "Delete for new coordinator"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Coord",
+					"request": {
+						"url": "http://localhost:3000/api/coordinators/123456",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "//Eae",
+								"value": "Aloo",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"coordinator\": {\n\t\t\"name\": \"Jose Silva\"\n\t}\n}"
+						},
+						"description": "Put for coordinator"
+					},
+					"response": []
+				},
+				{
+					"name": "Add coord-Forum",
+					"request": {
+						"url": "http://localhost:3000/api/coordinators/123456789/forum/123456",
+						"method": "POST",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get coord-Forum",
+					"request": {
+						"url": "http://localhost:3000/api/coordinators/123456789/forum/d85a63f8-b176-45a2-8160-7b08db708790",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete coord-Forum",
+					"request": {
+						"url": "http://localhost:3000/api/coordinators/123456789/forum/d85a63f8-b176-45a2-8160-7b08db708790",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Coord",
+					"request": {
+						"url": "http://localhost:3000/api/coordinators/123",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "//Eae",
+								"value": "Aloo",
+								"description": "",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"coordinator\": {\n\t\t\"registration\": \"1234567\",\n\t\t\"name\": \"oiio\", \n\t\t\"password\": \"eae\",\n\t\t\"email\": \"a@a.com\",\n\t\t\"course\": \"Engenharia\"\n\t}\n}"
+						},
+						"description": "Delete for new coordinator"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Form",
+			"description": "",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"url": "localhost:3000/api/forms",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"form\": {\n\t\t\"discussive\": [{\n\t\t\t\"question\": \"Sera que funfa?\",\n\t\t\t\"answer\": \"oioi\"\n\t\t}],\n\t\t\"multipleChoices\": [{\n\t\t\t\"question\": \"Qual vai dar certo?\",\n\t\t\t\"options\": [\"A\", \"B\", \"C\", \"D\"],\n\t\t\t\"answer\": \"A\"\n\t\t}]\n\t}\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Post form",
+					"request": {
+						"url": "localhost:3000/api/forms",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"form\": {\n\t\t\"discussive\": [{\n\t\t\t\"question\": \"Sera que funfa?\",\n\t\t\t\"answer\": \"oioi\"\n\t\t}],\n\t\t\"multipleChoices\": [{\n\t\t\t\"question\": \"Qual vai dar certo?\",\n\t\t\t\"options\": [\"A\", \"B\", \"C\", \"D\"],\n\t\t\t\"answer\": \"A\"\n\t\t}]\n\t}\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get One",
+					"request": {
+						"url": "localhost:3000/api/forms/bb29a076-5791-47ca-bb2d-a108d306b830",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"form\": {\n\t\t\"discussive\": [{\n\t\t\t\"question\": \"Sera que funfa?\",\n\t\t\t\"answer\": \"oioi\"\n\t\t}],\n\t\t\"multipleChoices\": [{\n\t\t\t\"question\": \"Qual vai dar certo?\",\n\t\t\t\"options\": [\"A\", \"B\", \"C\", \"D\"],\n\t\t\t\"answer\": \"A\"\n\t\t}]\n\t}\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"url": "localhost:3000/api/forms/9a73befb-ad5e-4f9b-af47-9df0313073a8",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"form\": {\n\t\t\"discussive\": [{\n\t\t\t\"question\": \"Sera que funfa?\",\n\t\t\t\"answer\": \"oioi\"\n\t\t}],\n\t\t\"multipleChoices\": [{\n\t\t\t\"question\": \"Qual vai dar certo?\",\n\t\t\t\"options\": [\"A\", \"B\", \"C\", \"D\"],\n\t\t\t\"answer\": \"A\"\n\t\t}]\n\t}\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Post Form-Forum",
+					"request": {
+						"url": "localhost:3000/api/forms/bb29a076-5791-47ca-bb2d-a108d306b830/forum/d85a63f8-b176-45a2-8160-7b08db708790",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"form\": {\n\t\t\"discussive\": [{\n\t\t\t\"question\": \"Sera que funfa?\",\n\t\t\t\"answer\": \"oioi\"\n\t\t}],\n\t\t\"multipleChoices\": [{\n\t\t\t\"question\": \"Qual vai dar certo?\",\n\t\t\t\"options\": [\"A\", \"B\", \"C\", \"D\"],\n\t\t\t\"answer\": \"A\"\n\t\t}]\n\t}\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get Form-Forum",
+					"request": {
+						"url": "localhost:3000/api/forms/bb29a076-5791-47ca-bb2d-a108d306b830/forum/d85a63f8-b176-45a2-8160-7b08db708790",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"form\": {\n\t\t\"discussive\": [{\n\t\t\t\"question\": \"Sera que funfa?\",\n\t\t\t\"answer\": \"oioi\"\n\t\t}],\n\t\t\"multipleChoices\": [{\n\t\t\t\"question\": \"Qual vai dar certo?\",\n\t\t\t\"options\": [\"A\", \"B\", \"C\", \"D\"],\n\t\t\t\"answer\": \"A\"\n\t\t}]\n\t}\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Form-Forum",
+					"request": {
+						"url": "localhost:3000/api/forms/bb29a076-5791-47ca-bb2d-a108d306b830/forum/d85a63f8-b176-45a2-8160-7b08db708790",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"form\": {\n\t\t\"discussive\": [{\n\t\t\t\"question\": \"Sera que funfa?\",\n\t\t\t\"answer\": \"oioi\"\n\t\t}],\n\t\t\"multipleChoices\": [{\n\t\t\t\"question\": \"Qual vai dar certo?\",\n\t\t\t\"options\": [\"A\", \"B\", \"C\", \"D\"],\n\t\t\t\"answer\": \"A\"\n\t\t}]\n\t}\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Forum",
+			"description": "",
+			"item": [
+				{
+					"name": "Get All",
+					"request": {
+						"url": "localhost:3000/api/forums/",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get One",
+					"request": {
+						"url": "localhost:3000/api/forums/123456",
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Post forum",
+					"request": {
+						"url": "localhost:3000/api/forums",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"forum\": {\n\t\t\"theme\": \"teste1\",\n\t\t\"date\": \"04/20/2017\",\n\t\t\"hour\": 14,\n\t\t\"place\":  \"UDP\"\n\t}\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Put forum",
+					"request": {
+						"url": "localhost:3000/api/forums/a183be7e-b4d2-4a42-bdcf-bf6ad4b0d8fe",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"forum\": {\n\t\t\"theme\": \"teste2\",\n\t\t\"date\": \"2014-04-20T06:32:18.616Z\",\n\t\t\"hour\": 14,\n\t\t\"place\": \"UDP\"\n\t}\n\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete forum",
+					"request": {
+						"url": "localhost:3000/api/forums/a183be7e-b4d2-4a42-bdcf-bf6ad4b0d8fe",
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"description": "",
+			"item": [
+				{
+					"name": "Authenticate Coord",
+					"request": {
+						"url": "http://localhost:3000/api/users/authenticate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"password\": \"123456aA\",\n    \"registration\": \"123456789\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticate Admin",
+					"request": {
+						"url": "http://localhost:3000/api/users/authenticate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"password\": \"Pb1234567\",\n    \"registration\": \"543221\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticate null",
+					"request": {
+						"url": "http://localhost:3000/api/users/authenticate",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"password\": \"Pb1234567\",\n    \"registration\": \"000\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
