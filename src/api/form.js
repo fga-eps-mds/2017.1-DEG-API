@@ -11,7 +11,7 @@ export default ({ config, db }) => {
 
   router.get('/', async (request, response) => {
     try {
-      response.json(await Form.run())
+      response.json(await Form.orderBy('date').run())
     } catch (err) {
       console.log(err)
       response.status(404).json({ error: err.name })
