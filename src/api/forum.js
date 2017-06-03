@@ -54,6 +54,9 @@ export default ({ config, db }) => {
     try {
       if (body.forum.date) {
         body.forum.date = new Date(body.forum.date)
+        if (isNaN(body.forum.date)) {
+          throw { name: 'Data inválida' }
+        }
         var result = await Forum.save(body.forum)
         response.json({result, success: !success})
       } else {
@@ -78,7 +81,11 @@ export default ({ config, db }) => {
 
       if (body.forum.date !== undefined && body.forum.date !== null) {
         body.forum.date = new Date(body.forum.date)
+        if (isNaN(body.forum.date)) {
+          throw { name: 'Data inválida' }
+        }
       }
+      
       var result = await forumInstance.merge(body.forum).save()
       var old = await forumInstance.getOldValue()
       response.json({result, old, success: !success})

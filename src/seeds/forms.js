@@ -6,6 +6,7 @@ export default {
     {
       id: "1",
       title: "Formulário 1",
+      expiration_date: "05/11/2017",
       multipleChoices: [
         {
           question: "Qual melhor opção?",
@@ -24,6 +25,7 @@ export default {
     },
     {
       title: "Formulário 2",
+      expiration_date: "05/05/2020",
       multipleChoices: [
         {
           question: "Qual é melhor opção?",
@@ -36,7 +38,7 @@ export default {
       ],
       discussive: [
         {
-          question: "Qual sua opnião?"
+          question: "Qual sua opinião?"
         }
       ]
     },

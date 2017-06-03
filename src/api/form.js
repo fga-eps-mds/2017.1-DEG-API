@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import Form from '../models/form'
+import { getCorrectError } from '../helpers/errorHandling'
 
 export default ({ config, db }) => {
   let router = Router()
@@ -11,7 +12,9 @@ export default ({ config, db }) => {
 
   router.get('/', async (request, response) => {
     try {
-      response.json(await Form.run())
+      var forms = await Form.orderBy('date').run()
+      // forms = forms.reverse()
+      response.json(forms)
     } catch (err) {
       console.log(err)
       response.status(404).json({ error: err.name })
@@ -32,10 +35,16 @@ export default ({ config, db }) => {
   router.post('/', async ({ body }, response) => {
     var success = false
     try {
+      if (body.form.expiration_date) {
+        body.form.expiration_date = new Date(body.form.expiration_date)
+        if (isNaN(body.form.expiration_date)) {
+          throw { name: 'Data inválida' }
+        }
+      }
+
       var result = await Form.save(body.form)
-      response.json({ result, success: !success })
+      response.json({result, success: !success})
     } catch (error) {
-      // console.log(error)
       response.status(404).json({error: error.name, success})
     }
   })
@@ -44,7 +53,12 @@ export default ({ config, db }) => {
     var success = false
     try {
       var formInstance = await form.run()
-
+      if (body.form.expiration_date !== undefined && body.form.expiration_date !== null) {
+        body.form.expiration_date = new Date(body.form.expiration_date)
+        if (isNaN(body.form.expiration_date)) {
+          throw { name: 'Data inválida' }
+        }
+      }
       var result = await formInstance.merge(body.form).save()
       var old = await formInstance.getOldValue()
       response.json({result, old, success: !success})
@@ -53,8 +67,8 @@ export default ({ config, db }) => {
       var errorMessage = getCorrectError(error,
         error.name,
         "Forum não encontrado",
-        "Dados inválidos de fórum" + error.message,
-        "Um erro ocorreu ao alterar esse forum " + error.message
+        "Dados inválidos de formulário " + error.message,
+        "Um erro ocorreu ao alterar esse formulário " + error.message
       )
       response.status(statusError).json({error: errorMessage, success})
     }

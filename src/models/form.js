@@ -2,6 +2,7 @@ import { thinky, type } from '../db'
 
 var Form = thinky.createModel('Form', {
   title: type.string().required(),
+  expiration_date: type.date(),
   discussive: [{
     question: type.string(),
     answer: type.string()
