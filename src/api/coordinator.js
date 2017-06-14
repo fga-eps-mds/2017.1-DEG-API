@@ -174,13 +174,14 @@ export default ({ config, db }) => {
       async ({ coordinator, params, body }, response) => {
         var success = false
         try {
+          var coordinatorInstance = await coordinator
           var answerInstance = await Answer.save(body.answer)
+          var result = await answerInstance.addRelation("form", { id: params.form })
+          result = await answerInstance.addRelation("coordinator", { registration: coordinatorInstance.registration })
+          // var result = await coordinator.getJoin({forums: true, answers: true}).run()
 
-          await answerInstance.addRelation("form", { id: params.form })
-          await answerInstance.addRelation("coordinator", { registration: coordinator.registration })
-
-          success = true 
-          response.json({ success })
+          success = true
+          response.json({ result, success })
         } catch (error) {
             console.log(error)
             var errorMessage = getCorrectError(error,
