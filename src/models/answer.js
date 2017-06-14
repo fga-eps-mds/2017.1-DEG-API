@@ -13,9 +13,9 @@ var Answer = thinky.createModel('Answer', {
     }]
 })
 
-Coordinator.hasMany(Answer, 'answer', 'registration', 'id')
-Answer.belongsTo(Coordinator, 'coordinators', 'id', 'registration')
-Form.hasMany(Answer, 'answer', 'id', 'id')
-Answer.belongsTo(Form, 'forms', 'id', 'id')
+Coordinator.hasMany(Answer, 'answers', 'registration', 'id')
+Answer.belongsTo(Coordinator, 'coordinator', 'id', 'registration')
+Form.hasMany(Answer, 'answers', 'id', 'id')
+Answer.belongsTo(Form, 'form', 'id', 'id')
 
 export default Answer
