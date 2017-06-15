@@ -1,5 +1,7 @@
 import { Router } from 'express'
 import Coordinator from '../models/coordinator'
+import Answer from '../models/answer'
+import Form from '../models/form'
 import { getCorrectError } from '../helpers/errorHandling'
 import _ from 'lodash'
 
@@ -168,6 +170,35 @@ export default ({ config, db }) => {
         response.status(statusError).json({ error: errorMessage })
       }
     })
+
+    router.post('/:coordinator/answer/:form',
+      async ({ coordinator, params, body }, response) => {
+        var success = false
+        try {
+          var coordinatorInstance = await coordinator
+          var formInstance = await Form.get(params.form)
+          var answerInstance = await Answer.save(body.answer)
+
+          var result = await answerInstance.addRelation("form", { id: formInstance.id })
+          result = await answerInstance.addRelation("coordinator", { registration: coordinatorInstance.registration })
+
+          success = true
+          response.json({ result, success })
+        } catch (error) {
+            var errorMessage = getCorrectError(error,
+            error.name,
+            "Coordenador não encontrado",
+            "Dados inválidos de coordenador " + error.message
+          )
+
+          var statusError = getCorrectError(error,
+            404,
+            404,
+            400
+          )
+          response.status(statusError).json({ error: errorMessage, success })
+        }
+      })
 
   return router
 }

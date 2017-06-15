@@ -227,5 +227,107 @@ describe("Coordinator Tests", function () {
       })
     })
 
+    it('it should post a coordinator\'s answer to a form', (done) => {
+      let answer = {
+        answer: {
+          discursiveAnswers: [
+            {
+              question: "questão",
+              answer: "resposta"
+            }
+          ],
+          multipleChoiceAnswers: [
+            {
+              question: "outra questão",
+              answers: [ "uma opção", "outra opção"]
+            },
+            {
+              question: "mais uma questão",
+              answers: ["só essa opção"]
+            }
+          ]
+        }
+      }
+
+      chai.request(runningServer)
+      .post('/api/coordinators/123456789/answer/1')
+      .send(answer)
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.result.should.have.property('coordinatorRegistration')
+        res.body.result.should.have.property('formId')
+        res.body.result.should.have.property('discursiveAnswers')
+        res.body.result.should.have.property('multipleChoiceAnswers')
+        res.body.success.should.be.eql(true)
+        done()
+      })
+    })
+
+    it('it should not post a coordinator\'s answer to a form given the coordinator is not registered', (done) => {
+      let answer = {
+        answer: {
+          discursiveAnswers: [
+            {
+              question: "questão",
+              answer: "resposta"
+            }
+          ],
+          multipleChoiceAnswers: [
+            {
+              question: "outra questão",
+              answers: [ "uma opção", "outra opção"]
+            },
+            {
+              question: "mais uma questão",
+              answers: ["só essa opção"]
+            }
+          ]
+        }
+      }
+
+      chai.request(runningServer)
+      .post('/api/coordinators/123/answer/1')
+      .send(answer)
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
+        res.body.success.should.be.eql(false)
+        done()
+      })
+    })
+
+    it('it should not post a coordinator\'s answer to a form given the form id is invalid', (done) => {
+      let answer = {
+        answer: {
+          discursiveAnswers: [
+            {
+              question: "questão",
+              answer: "resposta"
+            }
+          ],
+          multipleChoiceAnswers: [
+            {
+              question: "outra questão",
+              answers: [ "uma opção", "outra opção"]
+            },
+            {
+              question: "mais uma questão",
+              answers: ["só essa opção"]
+            }
+          ]
+        }
+      }
+
+      chai.request(runningServer)
+      .post('/api/coordinators/123456789/answer/123')
+      .send(answer)
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.have.property('error')
+        res.body.success.should.be.eql(false)
+        done()
+      })
+    })
+
   })
 })
