@@ -177,16 +177,27 @@ export default ({ config, db }) => {
         try {
           var coordinatorInstance = await coordinator
           var formInstance = await Form.get(params.form)
-          var answerInstance = await Answer.save(body.answer)
 
+          var coordinatorAnswers = await coordinator.getJoin({
+            answers: true
+          }).run()
+          coordinatorAnswers = coordinatorAnswers.answers.map((answer) => {
+            return answer.formId === formInstance.id
+          }).indexOf(true)
+
+          if (coordinatorAnswers > -1) {
+            throw new Error('Coordenador já respondeu este formulário.')
+          }
+
+          var answerInstance = await Answer.save(body.answer)
           var result = await answerInstance.addRelation("form", { id: formInstance.id })
           result = await answerInstance.addRelation("coordinator", { registration: coordinatorInstance.registration })
 
           success = true
           response.json({ result, success })
         } catch (error) {
-            var errorMessage = getCorrectError(error,
-            error.name,
+          var errorMessage = getCorrectError(error,
+            error.message,
             "Coordenador não encontrado",
             "Dados inválidos de coordenador " + error.message
           )
