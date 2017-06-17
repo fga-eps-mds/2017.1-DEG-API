@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import Form from '../models/form'
 import { getCorrectError } from '../helpers/errorHandling'
+import { computeAnswersPercentage } from '../helpers/form'
 
 export default ({ config, db }) => {
   let router = Router()
@@ -86,6 +87,25 @@ export default ({ config, db }) => {
         "Form não encontrado"
       )
       response.status(404).json({ error: errorMessage, success })
+    }
+  })
+
+  router.get('/:form/results', async ({ form }, response) => {
+    var success = false
+    try {
+      var formInstance = await form.getJoin({
+        answers: true
+      }).run()
+      var result = computeAnswersPercentage(formInstance)
+      console.log(result)
+      success = true
+      response.json({ success, result })
+    } catch (error) {
+      var errorMessage = getCorrectError(error,
+        error.name,
+        "Formulário não encontrado."
+      )
+      response.status(404).json({ error: errorMessage, success })      
     }
   })
 
