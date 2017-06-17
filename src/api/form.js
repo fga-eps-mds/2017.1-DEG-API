@@ -97,13 +97,13 @@ export default ({ config, db }) => {
         answers: true
       }).run()
       var result = computeAnswersPercentage(formInstance)
+      console.log(result)
       success = true
       response.json({ success, result })
     } catch (error) {
-      console.log(error)
       var errorMessage = getCorrectError(error,
         error.name,
-        "Respostas não encontradas."
+        "Formulário não encontrado."
       )
       response.status(404).json({ error: errorMessage, success })      
     }

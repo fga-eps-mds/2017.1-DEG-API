@@ -10,13 +10,23 @@ function computeAnswersPercentage (formInstance) {
     }
   }
   var multipleChoiceAnswers = answers.map(answer => answer.multipleChoiceAnswers)
+  var total = 0
   for (var currentAnswer of multipleChoiceAnswers) {
     for (var multipleChoice of currentAnswer) {
       for (var currentAnswer of multipleChoice.answers) {
-        result[multipleChoice.question][currentAnswer] += 1 / optionQuantity[multipleChoice.question]
+        result[multipleChoice.question][currentAnswer] += 1 // optionQuantity[multipleChoice.question]
+        total += 1
       }
     }
   }
+  if (total > 0) {
+    for (var multipleChoice of formInstance.multipleChoices) {
+      for (var option of multipleChoice.options) {
+        result[multipleChoice.question][option] /= total
+      }
+    }
+  }
+
   return result
 }
 

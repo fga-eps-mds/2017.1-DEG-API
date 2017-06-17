@@ -41,7 +41,7 @@ describe("Form Tests", function () {
       .end((err, res) => {
         res.should.have.status(200)
         res.body.should.be.a('array')
-        res.body.length.should.be.eql(2)
+        res.body.length.should.be.eql(3)
         done()
       })
     })
@@ -224,5 +224,43 @@ describe("Form Tests", function () {
       })
     })
 
+  })
+  describe('Form Answer', function () {
+    it('it should return the result of a form multiple questions correctly', (done) => {
+      chai.request(runningServer)
+      .get('/api/forms/1/results')
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.a('object')
+        res.body.success.should.be.eql(true)
+        res.body.result['Qual melhor opção?']['Aquela'].should.be.eql(2/3)
+        done()
+      })
+    })
+
+    it('it should return error to unexisting form', (done) => {
+      chai.request(runningServer)
+      .get('/api/forms/10/results')
+      .end((err, res) => {
+        res.should.have.status(404)
+        res.body.should.be.a('object')
+        res.body.success.should.be.eql(false)
+        res.body.error.should.be.eql("Formulário não encontrado.")
+        done()
+      })
+    })
+
+    it('it should return 0 in result for form without answers', (done) => {
+      chai.request(runningServer)
+      .get('/api/forms/2/results')
+      .end((err, res) => {
+        res.should.have.status(200)
+        res.body.should.be.a('object')
+        res.body.success.should.be.eql(true)
+        res.body.result['Qual é melhor opção?']['Sei não'].should.be.eql(0)
+        res.body.result['Qual é melhor opção?']['Aquela outra'].should.be.eql(0)
+        done()
+      })
+    })
   })
 })
