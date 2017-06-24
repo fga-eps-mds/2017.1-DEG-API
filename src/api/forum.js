@@ -13,7 +13,14 @@ export default ({ config, db }) => {
 
   router.get('/', async (request, response) => {
     try {
-      response.json(await Forum.orderBy('date').run())
+      response.json(await Forum.orderBy('date').getJoin({
+        coordinators: {
+          _apply: (coordinators) => {
+            return coordinators.count()
+          },
+          _array: false
+        }
+      }).run())
     } catch (err) {
       console.log(err)
       response.status(404).json({ error: err.name })
@@ -85,7 +92,7 @@ export default ({ config, db }) => {
           throw { name: 'Data inválida' }
         }
       }
-      
+
       var result = await forumInstance.merge(body.forum).save()
       var old = await forumInstance.getOldValue()
       response.json({result, old, success: !success})

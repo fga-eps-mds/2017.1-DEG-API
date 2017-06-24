@@ -13,7 +13,7 @@ export default ({ config, db }) => {
 
   router.get('/', async (request, response) => {
     try {
-      var forms = await Form.orderBy('date').run()
+      var forms = await Form.orderBy('expiration_date').run()
       // forms = forms.reverse()
       response.json(forms)
     } catch (err) {
@@ -105,7 +105,7 @@ export default ({ config, db }) => {
         error.name,
         "Formulário não encontrado."
       )
-      response.status(404).json({ error: errorMessage, success })      
+      response.status(404).json({ error: errorMessage, success })
     }
   })
 
